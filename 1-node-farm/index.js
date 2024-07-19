@@ -13,7 +13,6 @@ const url = require("url");
 // console.log("File written");
 
 // SERVER
-// SERVER
 
 // taking html card page and json object
 const replaceHtml = (temp, prod) => {
@@ -41,6 +40,7 @@ const tempProduct = fs.readFileSync(
   `${__dirname}/templates/template-product.html`,
   "utf-8"
 );
+
 // reading and parsing the data in JSON
 const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, "utf-8");
 const dataObj = JSON.parse(data);
@@ -50,7 +50,7 @@ const server = http.createServer((req, res) => {
   const { query, pathname } = url.parse(req.url, true);
 
   //overview
-  if (pathname === "/" || pathname === "./overview") {
+  if (pathname === "/" || pathname === "/overview") {
     res.writeHead(200, { "Content-type": "text/html" });
 
     //taking card and data over for each item and making up the html page
@@ -65,10 +65,12 @@ const server = http.createServer((req, res) => {
     const product = dataObj[query.id];
     const output = replaceHtml(tempProduct, product);
     res.end(output);
+
     //api
   } else if (pathname === "/api") {
     res.writeHead(200, { "Content-type": "application/json" });
     res.end(data);
+
     //page not found
   } else {
     res.writeHead(404, {
